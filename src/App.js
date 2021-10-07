@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+// import { remove, create } from "./actions";
+import "./App.css";
 
 function App() {
+  const dispatch = useDispatch();
+  const list = useSelector((state) => state.list);
+  const [text, setText] = useState("");
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    setData(list);
+  }, [list]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {data.map((e) => (
+        <div>{e}</div>
+      ))}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          import("./actions").then((obj) => {
+            dispatch(obj.create(text));
+          });
+          setText("");
+        }}
+      >
+        <input
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+          }}
+        />
+      </form>
     </div>
   );
 }
