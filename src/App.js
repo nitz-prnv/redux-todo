@@ -14,7 +14,18 @@ function App() {
   return (
     <div className="App">
       {data.map((e) => (
-        <div>{e}</div>
+        <div>
+          {e}
+          <button
+            onClick={() =>
+              import("./actions").then((obj) => {
+                dispatch(obj.remove(e));
+              })
+            }
+          >
+            remove
+          </button>{" "}
+        </div>
       ))}
       <form
         onSubmit={(e) => {
