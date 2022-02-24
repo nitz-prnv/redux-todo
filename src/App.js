@@ -10,12 +10,27 @@ function App() {
   const [data, setData] = useState([]);
   useEffect(() => {
     setData(list);
+    console.log(list);
   }, [list]);
   return (
     <div className="App">
       {data.map((e) => (
-        <div>
-          {e}
+        <div key={e}>
+          <div> {e.text} </div>
+          {e.done ? (
+            <>&#x2705;</>
+          ) : (
+            <button
+              onClick={() => {
+                import("./actions").then((obj) => {
+                  console.log(e);
+                  dispatch(obj.mark(e.text));
+                });
+              }}
+            >
+              mark
+            </button>
+          )}{" "}
           <button
             onClick={() =>
               import("./actions").then((obj) => {
@@ -24,14 +39,14 @@ function App() {
             }
           >
             remove
-          </button>{" "}
+          </button>
         </div>
       ))}
       <form
         onSubmit={(e) => {
           e.preventDefault();
           import("./actions").then((obj) => {
-            dispatch(obj.create(text));
+            dispatch(obj.create({ text, done: false }));
           });
           setText("");
         }}

@@ -10,3 +10,9 @@ export const remove = (data) => {
     payload: data,
   };
 };
+export const mark = (data) => {
+  return {
+    type: "Mark",
+    payload: data,
+  };
+};
